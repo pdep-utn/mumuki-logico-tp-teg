@@ -2,7 +2,6 @@ continente(americaDelSur).
 continente(americaDelNorte).
 continente(asia).
 continente(oceania).
-continente(europa).
 
 estaEn(americaDelSur, argentina).
 estaEn(americaDelSur, brasil).
@@ -20,12 +19,10 @@ estaEn(oceania,australia).
 estaEn(oceania,sumatra).
 estaEn(oceania,java).
 estaEn(oceania,borneo).
-estaEn(europa,italia).
 
 jugador(amarillo).
 jugador(magenta).
 jugador(negro).
-jugador(blanco).
 
 ocupa(argentina, magenta).
 ocupa(chile, negro).
@@ -43,8 +40,22 @@ ocupa(australia, negro).
 ocupa(sumatra, negro).
 ocupa(java, negro).
 ocupa(borneo, negro).
-ocupa(italia, blanco).
 
+% Usar este para saber si son limitrofes ya que es una relacion simetrica
+sonLimitrofes(X, Y) :- limitrofes(X, Y).
+sonLimitrofes(X, Y) :- limitrofes(Y, X).
+
+limitrofes(argentina,brasil).
+limitrofes(argentina,chile).
+limitrofes(argentina,uruguay).
+limitrofes(uruguay,brasil).
+limitrofes(alaska,kamtchatka).
+limitrofes(alaska,yukon).
+limitrofes(canada,yukon).
+limitrofes(alaska,oregon).
+limitrofes(canada,oregon).
+limitrofes(siberia,kamtchatka).
+limitrofes(siberia,china).
 limitrofes(china,kamtchatka).
 limitrofes(japon,china).
 limitrofes(japon,kamtchatka).
@@ -57,8 +68,8 @@ objetivo(amarillo, ocuparContinente(asia)).
 objetivo(amarillo,ocuparPaises(2, americaDelSur)). 
 objetivo(rojo, destruirJugador(negro)). 
 objetivo(magenta, destruirJugador(rojo)). 
-objetivo(negro, ocuparPaises(2, oceania)).
-objetivo(blanco, ocuparContinente(europa)). 
+objetivo(negro, ocuparContinente(oceania)).
+objetivo(negro,ocuparContinente(americaDelSur)). 
 
 cuantosPaisesOcupaEn(amarillo, americaDelSur, 1).
 cuantosPaisesOcupaEn(amarillo, americaDelNorte, 4).
@@ -73,9 +84,21 @@ cuantosPaisesOcupaEn(negro, americaDelNorte, 0).
 cuantosPaisesOcupaEn(negro, asia, 1).
 cuantosPaisesOcupaEn(negro, oceania, 4).
 
-
 ocupaContinente(Jugador, Continente) :-
 	jugador(Jugador),
 	continente(Continente),
 	forall(estaEn(Continente, Pais), ocupa(Pais, Jugador)).
 
+cumpleObjetivos(Jugador) :-
+	jugador(Jugador),
+	forall(objetivo(Jugador, Objetivo), cumple(Jugador, Objetivo)).
+	
+cumple(Jugador, ocuparContinente(Continente)) :-
+	ocupaContinente(Jugador, Continente).
+	
+cumple(Jugador, ocuparPaises(Cant, Continente)) :-
+	cuantosPaisesOcupaEn(Jugador, Continente, CantOcupada),
+	CantOcupada >= Cant.
+	
+cumple(_, destruirJugador(Enemigo)) :-
+	not(ocupa(_, Enemigo)).

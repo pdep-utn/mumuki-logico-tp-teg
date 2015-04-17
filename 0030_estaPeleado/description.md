@@ -1,10 +1,7 @@
-`cumpleObjetivos/1`: Se cumple para un jugador si cumple todos los objetivos que tiene. Los objetivos se cumplen de la siguiente forma:
-- ocuparContinente: el jugador debe ocupar el continente indicado
-- ocuparPaises: el jugador debe ocupar al menos n países de ese continente
-- destruirJugador: se cumple si el jugador indicado ya no ocupa ningún país
+`estaPeleado/1`: Se cumple para aquel continente en el cual  todos los jugadores ocupan algún país. Ejemplo:
 
 ```
-?- cumpleObjetivos(UnJugador)
-UnJugador = magenta.
+?- estaPeleado(asia).
+False.
 ```
 
