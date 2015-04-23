@@ -112,10 +112,6 @@ ocupaAlgunPaisEn(Jugador, Continente) :-
 	estaEn(Continente, Pais).
 	
 seAtrinchero(Jugador) :-
-	ocupaAlgunPaisEn(Jugador, Continente),
-	not(ocupaAlgunPaisEnOtro(Jugador, Continente)).
-	
-ocupaAlgunPaisEnOtro(Jugador, Continente) :-
-	continente(OtroContinente),
-	OtroContinente \= Continente,
-	ocupaAlgunPaisEn(Jugador, OtroContinente).
+	jugador(Jugador),
+	continente(Continente),
+	forall(ocupa(Pais, Jugador), estaEn(Continente, Pais)).
