@@ -1,3 +1,4 @@
+
 continente(americaDelSur).
 continente(americaDelNorte).
 continente(asia).
@@ -23,6 +24,7 @@ estaEn(oceania,borneo).
 jugador(amarillo).
 jugador(magenta).
 jugador(negro).
+jugador(rojo).
 
 ocupa(argentina, magenta).
 ocupa(chile, negro).
@@ -40,3 +42,45 @@ ocupa(australia, negro).
 ocupa(sumatra, negro).
 ocupa(java, negro).
 ocupa(borneo, negro).
+% Usar este para saber si son limitrofes ya que es una relacion simetrica
+sonLimitrofes(X, Y) :- limitrofes(X, Y).
+sonLimitrofes(X, Y) :- limitrofes(Y, X).
+
+limitrofes(argentina,brasil).
+limitrofes(argentina,chile).
+limitrofes(argentina,uruguay).
+limitrofes(uruguay,brasil).
+limitrofes(alaska,kamtchatka).
+limitrofes(alaska,yukon).
+limitrofes(canada,yukon).
+limitrofes(alaska,oregon).
+limitrofes(canada,oregon).
+limitrofes(siberia,kamtchatka).
+limitrofes(siberia,china).
+limitrofes(china,kamtchatka).
+limitrofes(japon,china).
+limitrofes(japon,kamtchatka).
+limitrofes(australia,sumatra).
+limitrofes(australia,java).
+limitrofes(australia,borneo).
+limitrofes(australia,chile).
+
+objetivo(amarillo, ocuparContinente(asia)).
+objetivo(amarillo,ocuparPaises(2, americaDelSur)). 
+objetivo(rojo, destruirJugador(negro)). 
+objetivo(magenta, destruirJugador(rojo)). 
+objetivo(negro, ocuparContinente(oceania)).
+objetivo(negro,ocuparContinente(americaDelSur)). 
+
+cuantosPaisesOcupaEn(amarillo, americaDelSur, 1).
+cuantosPaisesOcupaEn(amarillo, americaDelNorte, 4).
+cuantosPaisesOcupaEn(amarillo, asia, 3).
+cuantosPaisesOcupaEn(amarillo, oceania, 0).
+cuantosPaisesOcupaEn(magenta, americaDelSur, 2).
+cuantosPaisesOcupaEn(magenta, americaDelNorte, 0).
+cuantosPaisesOcupaEn(magenta, asia, 0).
+cuantosPaisesOcupaEn(magenta, oceania, 0).
+cuantosPaisesOcupaEn(negro, americaDelSur, 1).
+cuantosPaisesOcupaEn(negro, americaDelNorte, 0).
+cuantosPaisesOcupaEn(negro, asia, 1).
+cuantosPaisesOcupaEn(negro, oceania, 4).
